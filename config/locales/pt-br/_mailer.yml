@@ -18,7 +18,7 @@ pt-br:
       click_here: "Você pode acessar a sua página inicial através do endereço: <a href=\"%{url}\">%{url}</a>"
       confirmation_pending: "Seu cadastro foi efetivado com sucesso em <a href=\"%{url}\">%{site}</a> e submetido a aprovação do administrador responsável por validar o seu acesso.<br/>Assim que seu cadastro for aprovado você será comunicado."
       hello: "Olá %{name},"
-      message: "Estamos enviado este email para lhe informar que o seu registro em <a href=\"%{url}\">%{site}</a> foi concluído com sucesso!"
+      message: "Estamos enviando este email para lhe informar que o seu registro em <a href=\"%{url}\">%{site}</a> foi concluído com sucesso!"
       subject: "Registro realizado com sucesso"
     registration_by_admin_notification_email:
       click_here: "Você pode acessar a sua página inicial através do endereço: <a href=\"%{url}\">%{url}</a>"
