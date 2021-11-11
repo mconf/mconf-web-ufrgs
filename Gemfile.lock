@@ -509,6 +509,8 @@ GEM
       railties (>= 3.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2021.5)
+      tzinfo (>= 1.0.0)
     uglifier (3.0.0)
       execjs (>= 0.3.0, < 3)
     uuidtools (2.1.5)
@@ -645,6 +647,7 @@ DEPENDENCIES
   translate-rails3!
   turn (= 0.8.2)
   twitter-bootstrap-rails (~> 2.2.8)
+  tzinfo-data
   uglifier (>= 1.0.3)
   valid_email (~> 0.0.10)
   vpim (~> 13.11.11)

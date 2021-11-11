@@ -173,3 +173,7 @@ gem 'geocoder'
 gem 'redcarpet'
 gem 'epic-editor-rails'
 gem 'leaflet-rails'
+
+# for timezone info
+# useful if we keep it more up-to-date than the system packages are
+gem 'tzinfo-data'
