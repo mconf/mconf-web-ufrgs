@@ -1,10 +1,13 @@
 # Change Log
 
-## 3.2.0 - 2021-06-29
+## 3.2.0 - 2021-11-12
+
+* [UFRGSP-17] Add the gem `tzinfo-data` to fix issues with daylight savings time in Brazil.
 * [UFRGSP-9] Added a redirect to recordings list button in page header.
 * [UFRGSP-12] Added a few more optimization indexes in db.
 * [UFRGSP-13] Upgraded `bigbluebutton_rails` gem to version 2.3.
 * [UFRGSP-14] Removed configatron. Now we are using dotenv-rails.
+
 
 ## 3.1.0 - 2021-03-03
 
