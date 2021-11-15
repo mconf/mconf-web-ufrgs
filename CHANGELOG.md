@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.2.1 - 2021-11-15
+
+* Fix errors in the migration `BigbluebuttonRailsTo220B` added in v3.2.0.
+* Fix the name of the worker `BigbluebuttonFinishMeetingsWorker` in `workers_schedule`.
+
+
 ## 3.2.0 - 2021-11-12
 
 * [UFRGSP-17] Add the gem `tzinfo-data` to fix issues with daylight savings time in Brazil.

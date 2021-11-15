@@ -6,7 +6,7 @@
 
 module Mconf
   BASE    = "2.4.0".freeze # upstream
-  VERSION = "3.2.0".freeze # ufrgs
+  VERSION = "3.2.1".freeze # ufrgs
 
   # get the current revision from git
   @@revision = nil
