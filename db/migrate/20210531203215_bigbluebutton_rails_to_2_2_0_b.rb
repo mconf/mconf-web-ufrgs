@@ -1,7 +1,7 @@
 class BigbluebuttonRailsTo220B < ActiveRecord::Migration
   def up
     BigbluebuttonMeeting.where(create_time: nil).find_each do |meeting|
-      meeting.update_attribute(create_time, meeting.start_time.to_i)
+      meeting.update_attribute(:create_time, meeting.start_time.to_i)
     end
 
     remove_column :bigbluebutton_meetings, :start_time
@@ -37,7 +37,6 @@ class BigbluebuttonRailsTo220B < ActiveRecord::Migration
     BigbluebuttonRecording.where(meeting_id: nil).where.not(room_id: nil).find_each do |rec|
       meeting = BigbluebuttonMeeting.create do |m|
         creator_data = find_creator_data(rec)
-        m.server_id = rec.server_id
         m.room_id = rec.room_id
         m.meetingid = rec.meetingid
         m.name = rec.name
