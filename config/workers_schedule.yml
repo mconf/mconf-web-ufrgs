@@ -36,7 +36,7 @@ send_participant_confirmations_notifications:
 finish_meetings:
   every:
     - "30s"
-  class: BigbluebuttonFinishMeetings
+  class: BigbluebuttonFinishMeetingsWorker
   queue: low
   description: "Checks for meetings that finished and mark as finished. Same as 'rake bigbluebutton_rails:meetings:finish'."
 
