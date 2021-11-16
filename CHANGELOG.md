@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.2.2 - 2021-11-16
+
+* Fix the name of the worker `BigbluebuttonUpdateRecordingsWorker` in `workers_schedule`.
+  Also changed it's schedule so it runs less than before.
+* Remove the worker `UpdateServerConfigs` from `workers_schedule`, it's not necessary anymore
+  since we migrated to the HTML5 client.
+
+
 ## 3.2.1 - 2021-11-15
 
 * Fix errors in the migration `BigbluebuttonRailsTo220B` added in v3.2.0.
