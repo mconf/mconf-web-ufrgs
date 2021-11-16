@@ -47,13 +47,6 @@ update_recordings:
   queue: low
   description: "Gets the recordings in the server to populate the db. Same as 'rake bigbluebutton_rails:recordings:update'."
 
-update_server_configs:
-  every:
-    - "1h"
-  class: BigbluebuttonUpdateServerConfigs
-  queue: low
-  description: "Updates the server configs that are stored locally. Same as 'rake bigbluebutton_rails:server_configs:update'."
-
 update_space_relevance_indexes:
    cron: "0 4 * * *" # daily at 4am
    class: UpdateSpaceRelevanceIndexesWorker
