@@ -24,7 +24,6 @@ module Abilities
       end
 
       can [:index], User # restricted through Space and/or manage
-      can [:show, :current], User, disabled: false
 
       can [:index, :select], Space
       can [:show, :webconference, :recordings], Space, public: true
