@@ -103,9 +103,15 @@ describe UsersController do
       }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it "should return OK status for existing user" do
-      get :show, id: FactoryGirl.create(:superuser).to_param
-      response.response_code.should == 200
+    context "for non-anonymous users" do
+      before {
+        user = FactoryGirl.create(:user)
+        sign_in(user)
+      }
+      it "should return OK status for existing user" do
+        get :show, id: FactoryGirl.create(:superuser).to_param
+        response.response_code.should == 200
+      end
     end
 
     it { should_authorize an_instance_of(User), :show, id: FactoryGirl.create(:user).to_param }
@@ -186,13 +192,21 @@ describe UsersController do
         it { assigns(:recent_activities).should include(RecentActivity.find_by(id: @activities[0])) }
       end
 
-      context 'a logged out user' do
+      context 'a logged user' do
         before {
+          user3 = FactoryGirl.create(:user)
+          sign_in(user3)
           get :show, id: user.to_param
         }
 
         it { assigns(:recent_activities).count.should be(1) }
         it { assigns(:recent_activities).should include(RecentActivity.find_by(id: @activities[0])) }
+      end
+
+      context 'a not logged user' do
+        before { get :show, id: user.to_param }
+
+        it { should redirect_to(login_path) }
       end
     end
   end

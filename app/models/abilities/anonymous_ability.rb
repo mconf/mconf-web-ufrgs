@@ -23,7 +23,8 @@ module Abilities
         end
       end
 
-      can [:index], User # restricted through Space and/or manage
+      can :index, User # restricted through Space and/or manage
+      can :current, User, disabled: false
 
       can [:index, :select], Space
       can [:show, :webconference, :recordings], Space, public: true
