@@ -1714,7 +1714,7 @@ describe User do
 
     context "when is an anonymous user" do
       let(:user) { User.new }
-      it { should_not be_able_to_do_anything_to(target).except([:show, :index, :current]) }
+      it { should_not be_able_to_do_anything_to(target).except([:index, :current]) }
 
       context "and the target user is disabled" do
         before { target.disable() }
