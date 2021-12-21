@@ -9,6 +9,8 @@ require 'support/feature_helpers'
 
 describe 'User accesses spaces index' do
   subject { page }
+  let(:user) { FactoryGirl.create(:user) }
+  before(:each) { login_as(user) }
 
   context 'showing as' do
     let!(:default_logo84x64) { '/assets/default_logos/84x64/space.png' }
@@ -47,25 +49,6 @@ describe 'User accesses spaces index' do
       before { visit spaces_path(:tag => 'missing tag') }
       it { should_not have_content space.name }
       it { should_not have_content space.tag_list.first }
-    end
-  end
-
-  context 'anonymously' do
-    let!(:space) { FactoryGirl.create(:space_with_associations) }
-
-    context 'all spaces' do
-      before { visit spaces_path }
-      it { should have_css '.space-container', :count => 1 }
-      it { should_not have_css '#show-spaces-mine' }
-    end
-
-    context 'my spaces' do
-      before { # user can only access this via URL, but shouldn't fail
-        visit spaces_path(:my_spaces => true)
-      }
-      it { should have_css '.space-container', :count => 0 }
-      it { should_not have_css '#show-spaces-mine' }
-      it { should_not_be_500_page }
     end
   end
 

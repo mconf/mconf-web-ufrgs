@@ -21,18 +21,9 @@ feature 'Behaviour of the flag Site#registration_enabled' do
       it { page.should have_css("#navbar a[href='#{register_path}']") }
     end
 
-    context "events/index shows a link for anonymous to register" do
-      before {
-        Site.current.update_attributes(events_enabled: true)
-
-        visit events_path
-      }
-
-      it { within('#content-wrapper') { page.should have_link(t('register.one'), register_path) } }
-    end
-
-    context "spaces/index shows a link for anonymous to register" do
-      before { visit spaces_path }
+    context "the home of an event shows a link for anonymous to register" do
+      let(:event) { FactoryGirl.create(:event) }
+      before { visit event_path(event) }
 
       it { within('#content-wrapper') { page.should have_link(t('register.one'), register_path) } }
     end

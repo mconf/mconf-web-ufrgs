@@ -69,8 +69,10 @@ describe SpacesController do
         RecentActivity.create(owner: spaces[1], created_at: now + 2.days),
         RecentActivity.create(owner: spaces[2], created_at: now + 1.day)
       ]}
+      let(:user) { FactoryGirl.create(:user) }
 
       before {
+        login_as(user)
         Space.calculate_last_activity_indexes!
         get :index
       }
@@ -545,7 +547,7 @@ describe SpacesController do
         attendee
       }
 
-      context "and they are same user" do 
+      context "and they are same user" do
         let(:replicate_user_attendee) {
           attendee = BigbluebuttonAttendee.new
           attendee.user_id = user.id
@@ -614,7 +616,7 @@ describe SpacesController do
         }
         before(:each) {
           allow_any_instance_of(BigbluebuttonRoom).to receive(:current_attendees)
-            .and_return([moderator_user_attendee, replicate_user_attendee, 
+            .and_return([moderator_user_attendee, replicate_user_attendee,
               unregistered_attendee, another_unregistered_attendee])
           get :webconference, :id => space.to_param
         }
@@ -639,14 +641,14 @@ describe SpacesController do
         }
         before(:each) {
           allow_any_instance_of(BigbluebuttonRoom).to receive(:current_attendees)
-            .and_return([moderator_user_attendee, another_user_attendee, 
+            .and_return([moderator_user_attendee, another_user_attendee,
               unregistered_attendee, replicate_unregistered_attendee])
           get :webconference, :id => space.to_param
         }
         it { expect(assigns(:webconf_users)).to eq([user, another_user]) }
         it { expect(assigns(:webconf_attendees)).to eq([unregistered_attendee, replicate_unregistered_attendee]) }
       end
-      
+
       context "when there are not replicate attendees" do
         let(:another_user_attendee) {
           attendee = BigbluebuttonAttendee.new
@@ -664,14 +666,14 @@ describe SpacesController do
         }
         before(:each) {
           allow_any_instance_of(BigbluebuttonRoom).to receive(:current_attendees)
-            .and_return([moderator_user_attendee, another_user_attendee, 
+            .and_return([moderator_user_attendee, another_user_attendee,
               unregistered_attendee, another_unregistered_attendee])
           get :webconference, :id => space.to_param
         }
         it { expect(assigns(:webconf_users)).to eq([user, another_user]) }
         it { expect(assigns(:webconf_attendees)).to eq([unregistered_attendee, another_unregistered_attendee]) }
       end
-      
+
       context "when there are replicate in both profiles" do
         let(:replicate_user_attendee) {
           attendee = BigbluebuttonAttendee.new
@@ -689,7 +691,7 @@ describe SpacesController do
         }
         before(:each) {
           allow_any_instance_of(BigbluebuttonRoom).to receive(:current_attendees)
-            .and_return([moderator_user_attendee, replicate_user_attendee, 
+            .and_return([moderator_user_attendee, replicate_user_attendee,
               unregistered_attendee, replicate_unregistered_attendee])
           get :webconference, :id => space.to_param
         }
@@ -813,62 +815,77 @@ describe SpacesController do
 
     it { should_authorize Space, :select }
 
-    context ".json" do
-      let(:expected) {
-        @spaces.map do |s|
-          { :id => s.id, :permalink => s.permalink, :name => s.name,
-            :public => s.public, :text => s.name, :url => space_url(s) }
-        end
-      }
-
-      context "works" do
+    context 'user is not logged in' do
+      describe "request to .json" do
         before do
           10.times { FactoryGirl.create(:space) }
-          @spaces = Space.all.search_order.first(5)
         end
-        before(:each) { get :select, :format => :json }
-        it { should respond_with(:success) }
-        it { should respond_with_content_type(:json) }
-        it { should assign_to(:spaces).with(@spaces) }
-        it { response.body.should == expected.to_json }
+        before { get :select, format: :json }
+        it { should redirect_to(login_path) }
       end
+    end
 
-      context "matches spaces by name" do
-        let(:unique_str) { "123" }
-        before do
-          FactoryGirl.create(:space, :name => "Yet Another Space")
-          FactoryGirl.create(:space, :name => "Abc de Fgh")
-          FactoryGirl.create(:space, :name => "Space #{unique_str} Cool") do |s|
-            @spaces = [s]
+    context 'user is logged in' do
+      let(:user) { FactoryGirl.create(:user) }
+      before { login_as(user) }
+
+      context ".json" do
+        let(:expected) {
+          @spaces.map do |s|
+            { :id => s.id, :permalink => s.permalink, :name => s.name,
+              :public => s.public, :text => s.name, :url => space_url(s) }
           end
-        end
-        before(:each) { get :select, :q => unique_str, :format => :json }
-        it { should assign_to(:spaces).with(@spaces) }
-        it { response.body.should == expected.to_json }
-      end
+        }
 
-      context "has a param to limit the spaces in the response" do
-        before do
-          10.times { FactoryGirl.create(:space) }
+        context "works" do
+          before do
+            10.times { FactoryGirl.create(:space) }
+            @spaces = Space.all.search_order.first(5)
+          end
+          before(:each) { get :select, :format => :json }
+          it { should respond_with(:success) }
+          it { should respond_with_content_type(:json) }
+          it { should assign_to(:spaces).with(@spaces) }
+          it { response.body.should == expected.to_json }
         end
-        before(:each) { get :select, :limit => 3, :format => :json }
-        it { assigns(:spaces).count.should be(3) }
-      end
 
-      context "limits to 5 spaces by default" do
-        before do
-          10.times { FactoryGirl.create(:space) }
+        context "matches spaces by name" do
+          let(:unique_str) { "123" }
+          before do
+            FactoryGirl.create(:space, :name => "Yet Another Space")
+            FactoryGirl.create(:space, :name => "Abc de Fgh")
+            FactoryGirl.create(:space, :name => "Space #{unique_str} Cool") do |s|
+              @spaces = [s]
+            end
+          end
+          before(:each) { get :select, :q => unique_str, :format => :json }
+          it { should assign_to(:spaces).with(@spaces) }
+          it { response.body.should == expected.to_json }
         end
-        before(:each) { get :select, :format => :json }
-        it { assigns(:spaces).count.should be(5) }
-      end
 
-      context "limits to a maximum of 50 spaces" do
-        before do
-          60.times { FactoryGirl.create(:space) }
+        context "has a param to limit the spaces in the response" do
+          before do
+            10.times { FactoryGirl.create(:space) }
+          end
+          before(:each) { get :select, :limit => 3, :format => :json }
+          it { assigns(:spaces).count.should be(3) }
         end
-        before(:each) { get :select, :limit => 51, :format => :json }
-        it { assigns(:spaces).count.should be(50) }
+
+        context "limits to 5 spaces by default" do
+          before do
+            10.times { FactoryGirl.create(:space) }
+          end
+          before(:each) { get :select, :format => :json }
+          it { assigns(:spaces).count.should be(5) }
+        end
+
+        context "limits to a maximum of 50 spaces" do
+          before do
+            60.times { FactoryGirl.create(:space) }
+          end
+          before(:each) { get :select, :limit => 51, :format => :json }
+          it { assigns(:spaces).count.should be(50) }
+        end
       end
     end
   end
