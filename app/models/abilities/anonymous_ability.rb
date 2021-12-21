@@ -26,7 +26,6 @@ module Abilities
       can :index, User # restricted through Space and/or manage
       can :current, User, disabled: false
 
-      can [:index, :select], Space
       can [:show, :webconference, :recordings], Space, public: true
 
       can :index, Post # restricted through Space
@@ -44,7 +43,7 @@ module Abilities
     private
 
     def permissions_for_events(user)
-      can [:show, :index, :select], Event
+      can :show, Event
       can :register, Event, public: true
       can [:create, :new], Participant
       can :index_event, Space, public: true
