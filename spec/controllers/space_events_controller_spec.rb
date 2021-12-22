@@ -170,7 +170,7 @@ describe SpaceEventsController, :events => true do
       context "in a public space" do
         let(:space) { FactoryGirl.create(:space_with_associations, public: true) }
         let(:target) { FactoryGirl.create(:event, :owner => space) }
-        it { should allow_access_to(:index, hash) }
+        it { should_not allow_access_to(:index, hash) }
         skip "more tests that are not in the engine"
       end
 
