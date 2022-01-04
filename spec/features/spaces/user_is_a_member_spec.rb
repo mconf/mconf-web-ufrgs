@@ -40,14 +40,6 @@ feature 'User is' do
       end
     end
 
-    scenario 'on events page' do
-      visit space_events_path(space)
-
-      within('#page-menu ul li.selected') do
-        expect(page).to have_link(I18n.t('spaces.menu.events'))
-      end
-    end
-
     scenario 'on users page' do
       visit space_users_path(space)
 

@@ -10,123 +10,137 @@ describe EventsController do
   render_views
 
   describe "#index" do
-    context "layout and view" do
-      context 'with no events' do
-        before { get :index }
-
-        it { should redirect_to events_path(:show => 'all') }
-        it { assigns(:events).with([]) }
-      end
-
-      context 'with no upcoming events' do
-        before {
-          t = Time.zone.now
-          @events = [
-            FactoryGirl.create(:event, :start_on => t - 3.day, :end_on => t - 1.day),
-            FactoryGirl.create(:event, :start_on => t - 2.day, :end_on => t - 1.day),
-            FactoryGirl.create(:event, :start_on => t - 1.day, :end_on => t - 1.hour)
-          ]
-
-          get :index
-        }
-
-        it { should redirect_to events_path(:show => 'all') }
-        it { assigns(:events).with(@events) }
-      end
-
-      context 'with upcoming events' do
-        before {
-          t = Time.zone.now
-          @events = [
-            FactoryGirl.create(:event, :start_on => t - 3.day, :end_on => t - 1.day),
-            FactoryGirl.create(:event, :start_on => t + 1.day, :end_on => t + 10.day),
-          ]
-
-          get :index
-        }
-
-        it { should render_template("events/index") }
-        it { assigns(:events).with([@events[1]]) }
-      end
+    context 'user is not logged in' do
+      before { get :index }
+      it { should redirect_to(login_path) }
     end
 
-    context "if params[:show]" do
-      let(:zone) { Time.zone.name }
-      let(:now) { Time.zone.now }
-      let!(:e1) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now - 4.hour, :end_on => now - 2.hour) }
-      let!(:e2) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now - 3.hour, :end_on => now - 1.hour) }
-      let!(:e3) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now - 2.hour, :end_on => now + 5.minute) }
-      let!(:e4) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now - 1.hour, :end_on => now + 10.minute) }
-      let!(:e5) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now + 1.hour, :end_on => now + 2.hour) }
-      let!(:e6) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now + 2.hour, :end_on => now + 3.hour) }
+    context 'user is logged in' do
+      let(:user) { FactoryGirl.create(:user) }
+      before { login_as(user) }
+      
+      context "layout and view" do
+        context 'with no events' do
+          before { get :index }
 
-      context "is 'past_events'" do
-        before(:each) { get :index, :show => 'past_events' }
+          it { should redirect_to events_path(:show => 'all') }
+          it { assigns(:events).with([]) }
+        end
 
-        it { assigns(:events).should eq([e2, e1]) }
+        context 'with no upcoming events' do
+          before {
+            t = Time.zone.now
+            @events = [
+              FactoryGirl.create(:event, :start_on => t - 3.day, :end_on => t - 1.day),
+              FactoryGirl.create(:event, :start_on => t - 2.day, :end_on => t - 1.day),
+              FactoryGirl.create(:event, :start_on => t - 1.day, :end_on => t - 1.hour)
+            ]
+
+            get :index
+          }
+
+          it { should redirect_to events_path(:show => 'all') }
+          it { assigns(:events).with(@events) }
+        end
+
+        context 'with upcoming events' do
+          before {
+            t = Time.zone.now
+            @events = [
+              FactoryGirl.create(:event, :start_on => t - 3.day, :end_on => t - 1.day),
+              FactoryGirl.create(:event, :start_on => t + 1.day, :end_on => t + 10.day),
+            ]
+
+            get :index
+          }
+
+          it { should render_template("events/index") }
+          it { assigns(:events).with([@events[1]]) }
+        end
       end
 
-      context "is 'upcoming_events'" do
-        before(:each) { get :index, :show => 'upcoming_events' }
+      context "if params[:show]" do
+        let(:zone) { Time.zone.name }
+        let(:now) { Time.zone.now }
+        let!(:e1) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now - 4.hour, :end_on => now - 2.hour) }
+        let!(:e2) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now - 3.hour, :end_on => now - 1.hour) }
+        let!(:e3) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now - 2.hour, :end_on => now + 5.minute) }
+        let!(:e4) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now - 1.hour, :end_on => now + 10.minute) }
+        let!(:e5) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now + 1.hour, :end_on => now + 2.hour) }
+        let!(:e6) { FactoryGirl.create(:event, :time_zone => zone, :start_on => now + 2.hour, :end_on => now + 3.hour) }
 
-        it { assigns(:events).should eq([e3, e4, e5, e6]) }
+        context "is 'past_events'" do
+          before(:each) { get :index, :show => 'past_events' }
+
+          it { assigns(:events).should eq([e2, e1]) }
+        end
+
+        context "is 'upcoming_events'" do
+          before(:each) { get :index, :show => 'upcoming_events' }
+
+          it { assigns(:events).should eq([e3, e4, e5, e6]) }
+        end
+
+        context "is not present acts like 'upcoming_events'" do
+          before(:each) { get :index }
+
+          it { assigns(:events).should eq([e3, e4, e5, e6]) }
+        end
+
+        context "is 'happening_now'" do
+          before(:each) { get :index, :show => 'happening_now' }
+
+          it { assigns(:events).should eq([e3, e4]) }
+        end
+
+        context "is 'all'" do
+          before(:each) { get :index, :show => 'all' }
+
+          it { assigns(:events).should eq([e6, e5, e4, e3, e2, e1]) }
+        end
       end
 
-      context "is not present acts like 'upcoming_events'" do
-        before(:each) { get :index }
+      context "if params[:q] is present" do
+        let!(:e1) { FactoryGirl.create(:event, :name => 'Party Hard') }
+        let!(:e2) { FactoryGirl.create(:event, :name => 'Party Soft') }
 
-        it { assigns(:events).should eq([e3, e4, e5, e6]) }
+        context "find all" do
+          before(:each) { get :index, :q => 'Party' }
+
+          it { assigns(:events).should include(e1, e2) }
+        end
+
+        context "find one" do
+          before(:each) { get :index, :q => 'hard' }
+
+          it { assigns(:events).should include(e1) }
+        end
+
+        context "find nothing" do
+          before(:each) { get :index, :q => 'Stay home and rest' }
+
+          it { assigns(:events).should eq([]) }
+        end
+
+        context "find nothing with empty query" do
+          before(:each) { get :index, :q => '' }
+
+          # SQL query actually finds all the records...
+          # Is the empty query desired behavior? Lets leave this here for now
+          skip { assigns(:events).should eq([]) }
+        end
+
       end
-
-      context "is 'happening_now'" do
-        before(:each) { get :index, :show => 'happening_now' }
-
-        it { assigns(:events).should eq([e3, e4]) }
-      end
-
-      context "is 'all'" do
-        before(:each) { get :index, :show => 'all' }
-
-        it { assigns(:events).should eq([e6, e5, e4, e3, e2, e1]) }
-      end
-    end
-
-    context "if params[:q] is present" do
-      let!(:e1) { FactoryGirl.create(:event, :name => 'Party Hard') }
-      let!(:e2) { FactoryGirl.create(:event, :name => 'Party Soft') }
-
-      context "find all" do
-        before(:each) { get :index, :q => 'Party' }
-
-        it { assigns(:events).should include(e1, e2) }
-      end
-
-      context "find one" do
-        before(:each) { get :index, :q => 'hard' }
-
-        it { assigns(:events).should include(e1) }
-      end
-
-      context "find nothing" do
-        before(:each) { get :index, :q => 'Stay home and rest' }
-
-        it { assigns(:events).should eq([]) }
-      end
-
-      context "find nothing with empty query" do
-        before(:each) { get :index, :q => '' }
-
-        # SQL query actually finds all the records...
-        # Is the empty query desired behavior? Lets leave this here for now
-        skip { assigns(:events).should eq([]) }
-      end
-
     end
   end
 
   describe "disabled owners" do
     let!(:event) { FactoryGirl.create(:event, owner: owner) }
-    before { event.owner.disable }
+    let(:user) { FactoryGirl.create(:user) }
+    before { 
+      event.owner.disable
+      login_as(user)
+    }
 
     context "dont index events with disabled owners" do
       before {
@@ -167,7 +181,11 @@ describe EventsController do
 
   describe "unapproved owners" do
     let!(:event) { FactoryGirl.create(:event, owner: owner) }
-    before { event.owner.disapprove! }
+    let(:user) { FactoryGirl.create(:user) }
+    before { 
+      event.owner.disapprove!
+      login_as(user)
+    }
 
     context "dont index events with unapproved owners" do
       before {
@@ -221,62 +239,78 @@ describe EventsController do
 
     it "event public: [true, false] with space owned events"
 
-    context ".json" do
-      let(:expected) {
-        @events.map do |e|
-          { :id => e.id, :permalink => e.permalink, :public => true,
-            :name => e.name, :text => e.name, :url => event_url(e) }
-        end
-      }
-
-      context "works" do
+    context 'user is not logged in' do
+      describe "request to .json" do
         before do
           10.times { FactoryGirl.create(:event) }
-          @events = Event.all.search_order.first(5)
         end
-        before(:each) { get :select, :format => :json }
-        it { should respond_with(:success) }
-        it { should respond_with_content_type(:json) }
-        it { should assign_to(:events).with(@events) }
-        it { response.body.should == expected.to_json }
+        before(:each) { get :select, format: :json }
+        it('@events should be empty') { assigns(:events).count.should be(0) }
+        it { should redirect_to(login_path) }
       end
+    end
 
-      context "matches events by name" do
-        let(:unique_str) { "EVENNNT" }
-        before do
-          FactoryGirl.create(:event, :name => "A cool event")
-          FactoryGirl.create(:event, :name => "A random event")
-          FactoryGirl.create(:event, :name => "Event #{unique_str} dude") do |e|
-            @events = [e]
+    context 'User is logged in' do
+      let(:user) { FactoryGirl.create(:user) }
+      before { login_as(user) }
+
+      context ".json" do
+        let(:expected) {
+          @events.map do |e|
+            { :id => e.id, :permalink => e.permalink, :public => true,
+              :name => e.name, :text => e.name, :url => event_url(e) }
           end
-        end
-        before(:each) { get :select, :q => unique_str, :format => :json }
-        it { should assign_to(:events).with(@events) }
-        it { response.body.should == expected.to_json }
-      end
+        }
 
-      context "has a param to limit the events in the response" do
-        before do
-          10.times { FactoryGirl.create(:event) }
+        context "works" do
+          before do
+            10.times { FactoryGirl.create(:event) }
+            @events = Event.all.search_order.first(5)
+          end
+          before(:each) { get :select, :format => :json }
+          it { should respond_with(:success) }
+          it { should respond_with_content_type(:json) }
+          it { should assign_to(:events).with(@events) }
+          it { response.body.should == expected.to_json }
         end
-        before(:each) { get :select, :limit => 3, :format => :json }
-        it { assigns(:events).count.should be(3) }
-      end
 
-      context "limits to 5 events by default" do
-        before do
-          10.times { FactoryGirl.create(:event) }
+        context "matches events by name" do
+          let(:unique_str) { "EVENNNT" }
+          before do
+            FactoryGirl.create(:event, :name => "A cool event")
+            FactoryGirl.create(:event, :name => "A random event")
+            FactoryGirl.create(:event, :name => "Event #{unique_str} dude") do |e|
+              @events = [e]
+            end
+          end
+          before(:each) { get :select, :q => unique_str, :format => :json }
+          it { should assign_to(:events).with(@events) }
+          it { response.body.should == expected.to_json }
         end
-        before(:each) { get :select, :format => :json }
-        it { assigns(:events).count.should be(5) }
-      end
 
-      context "limits to a maximum of 50 events" do
-        before do
-          60.times { FactoryGirl.create(:event) }
+        context "has a param to limit the events in the response" do
+          before do
+            10.times { FactoryGirl.create(:event) }
+          end
+          before(:each) { get :select, :limit => 3, :format => :json }
+          it { assigns(:events).count.should be(3) }
         end
-        before(:each) { get :select, :limit => 51, :format => :json }
-        it { assigns(:events).count.should be(50) }
+
+        context "limits to 5 events by default" do
+          before do
+            10.times { FactoryGirl.create(:event) }
+          end
+          before(:each) { get :select, :format => :json }
+          it { assigns(:events).count.should be(5) }
+        end
+
+        context "limits to a maximum of 50 events" do
+          before do
+            60.times { FactoryGirl.create(:event) }
+          end
+          before(:each) { get :select, :limit => 51, :format => :json }
+          it { assigns(:events).count.should be(50) }
+        end
       end
     end
   end
@@ -371,7 +405,7 @@ describe EventsController do
 
     context "when not logged in" do
       before(:each) { get :new }
-      it { should redirect_to new_user_session_path }
+      it { should redirect_to login_path }
     end
 
   end
