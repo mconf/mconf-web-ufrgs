@@ -1,5 +1,16 @@
 # Change Log
 
+## [Unreleased]
+
+
+## [3.2.3] - 2022-01-06
+## Security
+* [UFRGSP-16] | Anonymous users cannot access another user's profile.
+  - PRs: [#29]
+* [UFRGSP-17] | Anonymous users cannot access the events and spaces lists.
+  - PRs: [#30]
+
+
 ## 3.2.2 - 2021-11-16
 
 * Fix the name of the worker `BigbluebuttonUpdateRecordingsWorker` in `workers_schedule`.
@@ -429,3 +440,15 @@ This is a minor update over 0.8 that was developed in parallel with 2.0.
 [0.3]: https://github.com/mconf/mconf-web/issues?q=milestone%3Av0.3.0
 [0.2]: https://github.com/mconf/mconf-web/issues?q=milestone%3Av0.2.0
 [0.1]: https://github.com/mconf/mconf-web/issues?q=milestone%3Av0.1.0
+
+<!-- Cards -->
+[UFRGSP-17]: https://www.notion.so/mconf/Adicionar-restri-es-para-as-rotas-p-blicas-f4ce74cff1ae481485d480cfcedac0b0
+[UFRGSP-16]: https://www.notion.so/mconf/Esconder-a-rota-p-blica-users-id-8563e76bac184926a7244d27f7fab61f
+
+<!-- PRs -->
+[#30]: https://github.com/mconf/mconf-web-ufrgs/pull/30
+[#29]: https://github.com/mconf/mconf-web-ufrgs/pull/29
+
+<!-- Compares -->
+[Unreleased]: https://github.com/mconf/mconf-web-ufrgs/compare/v3.2.3..HEAD
+[3.2.3]: https://github.com/mconf/mconf-web-ufrgs/compare/v3.2.2..v3.2.3
