@@ -24,7 +24,7 @@ module Mconf
         user.locale.to_sym
 
       # session locale
-      elsif use_session and session_has_locale?(session)
+      elsif use_session && defined?(session) && session_has_locale?(session)
         session[:locale]
 
       # site locale
