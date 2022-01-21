@@ -88,31 +88,26 @@ describe BigbluebuttonRails do
     it { target.should respond_to(:get_join_options) }
     it { target.get_create_options.should be_a(Proc) }
 
-    context 'sets locale' do
+    context 'sets locale userdata' do
       context 'when user has logged in' do
-        let(:user) { FactoryGirl.create(:user, locale: "en") }
-        let(:join_options) { target.get_join_options.call(room, user, {}) }
-        let(:locale) { Mconf::LocaleControllerModule.get_user_locale(user) }
-        # FIX ME: remove after team Live update bbb to version 2.4
-        it { expect(join_options[:"userdata-mconf_custom_language"]).to eql(locale) }
-        it { expect(join_options[:"userdata-bbb_override_default_locale"]).to eql(locale) }
-      end
-
-      context 'when user has logged in' do
-        let(:user) { FactoryGirl.create(:user, locale: "pt-br") }
-        let(:join_options) { target.get_join_options.call(room, user, {}) }
-        let(:locale) { Mconf::LocaleControllerModule.get_user_locale(user) }
-        # FIX ME: remove after team Live update bbb to version 2.4
-        it { expect(join_options[:"userdata-mconf_custom_language"]).to eql(locale) }
-        it { expect(join_options[:"userdata-bbb_override_default_locale"]).to eql(locale) }
+        ["en", "pt-br"].each do |user_locale|
+          context "and its locale is set to #{user_locale.upcase}" do
+            let(:user) { FactoryGirl.create(:user, locale: user_locale) }
+            let(:join_options) { target.get_join_options.call(room, user, {}) }
+            let(:locale) { Mconf::LocaleControllerModule.get_user_locale(user) }
+            # FIXME: remove after team Live update bbb to version 2.4
+            it { expect(join_options[:"userdata-mconf_custom_language"]).to eql(locale) }
+            it { expect(join_options[:"userdata-bbb_override_default_locale"]).to eql(locale) }
+          end
+        end
       end
 
       context 'when user has not logged in' do
         let(:join_options) { target.get_join_options.call(room, nil, {}) }
         let(:locale) { Mconf::LocaleControllerModule.get_user_locale(nil) }
-        # FIX ME: remove after team Live update bbb to version 2.4
-        it { expect(join_options[:"userdata-mconf_custom_language"]).to eql(locale) }
-        it { expect(join_options[:"userdata-bbb_override_default_locale"]).to eql(locale) }
+        # FIXME: remove after team Live update bbb to version 2.4
+        it { expect(join_options).to eql(nil) }
+        it { expect(join_options).to eql(nil) }
       end
     end
   end
