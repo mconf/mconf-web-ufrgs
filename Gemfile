@@ -22,7 +22,7 @@ gem 'inherited_resources', '~> 1.6.0'
 # This compass is here so we can have css3/animation
 gem 'compass', '~> 0.13.alpha'
 
-gem 'mysql2', '~> 0.4.0'
+gem 'mysql2', '~> 0.5.0'
 gem 'rake', '~> 10.5.0'
 gem 'therubyracer', :require => 'v8'
 gem 'haml'
