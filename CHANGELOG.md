@@ -2,9 +2,28 @@
 
 ## [Unreleased]
 
+## [3.2.4] - 2022-02-11
+### Changed
+* [UFRGSP-19] | Banner on recordings lists now mentions recordings processing time
+  - PRs: [#33]
+### Added
+* [ELOSP-770] | Add `bbb_override_default_locale` metadata on meetings' join calls. Introduced
+  on BBB v2.3, it configures a locale to override the default `en` used on BBB `meetings.metadata`
+  - PRs: [#31]
+
+<!-- Cards -->
+  [ELOSP-770]: https://www.notion.so/mconf/Mudar-o-metadado-que-passa-o-locale-para-o-Live-2-4-0ad166175f1c4f09af3da3240becada4
+  [UFRGSP-19]: https://www.notion.so/mconf/Atualizar-o-texto-do-banner-de-grava-es-da-UFRGS-6f313e79a1774c1eb37f287ddcc32da8
+
+<!-- PRs -->
+  [#31]: https://github.com/mconf/mconf-web-ufrgs/pull/31
+  [#33]: https://github.com/mconf/mconf-web-ufrgs/pull/33
+
+<!-- Compare -->
+[3.2.4]: https://github.com/mconf/mconf-web-ufrgs/compare/v3.2.3..v3.2.4
 
 ## [3.2.3] - 2022-01-06
-## Security
+### Security
 * [UFRGSP-16] | Anonymous users cannot access another user's profile.
   - PRs: [#29]
 * [UFRGSP-17] | Anonymous users cannot access the events and spaces lists.
