@@ -37,7 +37,20 @@ BigbluebuttonRails.configure do |config|
       record: ability.can?(:record_meeting, room)
     }
   end
-  
+
+  config.get_join_options = Proc.new do |room, user|
+    if user.present?
+      # Add custom metadata join calls
+      include Mconf::LocaleControllerModule
+      opts = {
+        # FIXME: remove after team Live update bbb to version 2.4
+        "userdata-mconf_custom_language": Mconf::LocaleControllerModule.get_user_locale(user),
+        "userdata-bbb_override_default_locale": Mconf::LocaleControllerModule.get_user_locale(user),
+      }
+      opts
+    end
+  end
+
 end
 
 Rails.application.config.to_prepare do
