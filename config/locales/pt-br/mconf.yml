@@ -1320,7 +1320,7 @@ pt-br:
       title: Aperte Ctrl+C para copiar o texto
       success: Texto copiado para a área de transferência
     recording_list:
-      banner_expiring: "Atenção! As gravações serão deletadas após 6 meses"
+      banner_expiring: "Atenção! As gravações demoram até 24h para estarem disponíveis e são deletadas após 6 meses."
       created: "Criada"
       created_by: "Criada por"
       destroy_confirm: "Você tem certeza que deseja remover esta gravação permanentemente?"
