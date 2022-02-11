@@ -8,8 +8,8 @@
 
   .banner {
     .banner-wrapper {
-      width: 100%;
-      height: 50px;
+      padding: 12px;
+      text-align: center;
       background-color: $alert-danger-font
     }
 
@@ -21,7 +21,7 @@
       flex-flow: row nowrap;
       align-items: center;
       justify-content: center;
-      font-size: large;
+      font-size: $font-medium;
     
       color: white;
     }

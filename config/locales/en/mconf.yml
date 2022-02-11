@@ -1315,7 +1315,7 @@ en:
       title: Press Ctrl+C to copy the text
       success: Text copied to clipboard
     recording_list:
-      banner_expiring: "Attention! Recordings will be deleted after 6 months"
+      banner_expiring: "Be aware that recordings can take up to 24 hours to become available and are deleted after 6 months."
       created: "Created"
       created_by: "Created by"
       destroy_confirm: "Are you sure you want to permanently remove this recording?"
