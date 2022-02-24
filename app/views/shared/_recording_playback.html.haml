@@ -8,7 +8,8 @@
   %ul.thread-recording-playback
     %li
       %span.playback-unavailable= t('.unavailable')
-      = icon_help(t('.unavailable_tip'))
+      -# TO-DO: Reactivate this tooltip when the recording's sync is fixed.
+      -# = icon_help(t('.unavailable_tip'))
 - else
   - if recording.playback_formats.size > 0
     %ul.thread-recording-playback

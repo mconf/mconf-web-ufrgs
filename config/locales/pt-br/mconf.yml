@@ -1339,7 +1339,7 @@ pt-br:
       playback: "Links para reprodução"
       processing_dots: "Processando, por favor aguarde..."
       processing_tip: "Esta gravação foi encontrada em um dos servidores mas ainda está sendo processada. Quando o processamento acabar, os links para reprodução serão disponibilizados aqui."
-      unavailable: "A gravação não está disponível"
+      unavailable: "A gravação ainda não está disponível"
       unavailable_tip: "A gravação não está mais disponível no servidor onde ela estava armazenada e então não pode ser acessada."
     webconf_index_links:
       new_room: "Nova sala"
