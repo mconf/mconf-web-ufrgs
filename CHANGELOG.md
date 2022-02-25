@@ -2,6 +2,20 @@
 
 ## [Unreleased]
 
+## [3.2.5] - 2022-02-25
+### Changed
+* [UFRGSP-21] | Text for the unavailable recordings changed and their tooltip was removed
+  - PRs: [#34]
+
+<!-- Cards -->
+  [UFRGSP-21]: https://www.notion.so/mconf/Altera-o-no-texto-de-grava-o-n-o-dispon-vel-2805f2b5f70546c9b2f0d1204d3d9601
+
+<!-- PRs -->
+  [#34]: https://github.com/mconf/mconf-web-ufrgs/pull/34
+
+<!-- Compare -->
+[3.2.5]: https://github.com/mconf/mconf-web-ufrgs/compare/v3.2.4..v3.2.5
+
 ## [3.2.4] - 2022-02-11
 ### Changed
 * [UFRGSP-19] | Banner on recordings lists now mentions recordings processing time
