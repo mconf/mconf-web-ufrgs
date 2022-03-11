@@ -1,6 +1,4 @@
-FROM ruby:2.2.5
-
-RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+FROM ruby:2.3.8
 
 RUN apt-get update && \
     apt-get install -y --force-yes libruby aspell-es aspell-en libxml2-dev \
@@ -10,6 +8,14 @@ RUN apt-get update && \
                        libffi-dev
 
 ENV app /usr/src/app
+
+ARG RAILS_ENV
+ENV RAILS_ENV=${RAILS_ENV:-production}
+
+RUN if [ "$RAILS_ENV" = "development" ]; \
+    then sed -i -e 's=^mozilla/DST_Root_CA_X3.crt=!mozilla/DST_Root_CA_X3.crt=' '/etc/ca-certificates.conf'; \
+         update-ca-certificates; \
+    fi
 
 # Create app directory
 WORKDIR $app
