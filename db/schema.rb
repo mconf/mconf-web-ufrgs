@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210531203324) do
+ActiveRecord::Schema.define(version: 20220321165703) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -519,20 +519,20 @@ ActiveRecord::Schema.define(version: 20210531203324) do
 
   create_table "users", force: true do |t|
     t.string   "username"
-    t.string   "email",                               default: "",    null: false
-    t.string   "encrypted_password",                  default: "",    null: false
-    t.string   "password_salt",            limit: 40
+    t.string   "email",                                default: "",    null: false
+    t.string   "encrypted_password",                   default: "",    null: false
+    t.string   "password_salt",             limit: 40
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "disabled",                            default: false
+    t.boolean  "disabled",                             default: false
     t.datetime "confirmed_at"
     t.string   "timezone"
-    t.boolean  "expanded_post",                       default: false
+    t.boolean  "expanded_post",                        default: false
     t.string   "locale"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                       default: 0
+    t.integer  "sign_in_count",                        default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -541,8 +541,9 @@ ActiveRecord::Schema.define(version: 20210531203324) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.boolean  "can_record"
-    t.boolean  "approved",                            default: false, null: false
+    t.boolean  "approved",                             default: false, null: false
     t.datetime "current_local_sign_in_at"
+    t.string   "legacy_encrypted_password",            default: ""
   end
 
   add_index "users", ["approved"], name: "index_users_on_approved", using: :btree

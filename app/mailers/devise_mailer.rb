@@ -5,11 +5,20 @@
 # 3 or later. See the LICENSE file.
 
 class DeviseMailer < Devise::Mailer
-  helper :application
+
   include Devise::Controllers::UrlHelpers
+  include Mconf::LocaleControllerModule
+
   default template_path: 'devise/mailer'
   layout 'mailers'
 
+  # override the default method used by devise to set the user's locale
+  def devise_mail(record, action, opts = {}, &block)
+    I18n.with_locale(get_user_locale(record, nil)) do
+      super
+    end
+  end
+  
   def confirmation_instructions(record, token, opts={})
     return if !record.local_auth?
 

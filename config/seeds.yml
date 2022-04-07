@@ -18,7 +18,7 @@ site:
   domain: "localhost:3000"
   smtp_login: ""
   smtp_password: ""
-  smtp_server: ""
+  smtp_server: "dev_mailer"
   smtp_domain: "localhost"
   smtp_sender: "fake-email@mconf.org"
   smtp_use_tls: false

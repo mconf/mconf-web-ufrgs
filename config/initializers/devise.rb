@@ -92,9 +92,9 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  config.pepper = "f60cb221e6439d785679a1cd5387aea47e2dcd1b64994eef0360156c0fb8f2a1a7d9252128daba75d6745e43e09707d29724992ea4d71b16d226789fb0992fcc"
-
-  config.secret_key = '868126c2a443c09e10fb9d344663859c7640a84bb0daf10820cdc39ba5481faf90e2a3115b88cbd7cd7ac323547e300c6f67f62a1709173957aa66069555691a'
+  config.pepper = ENV['MCONF_DEVISE_PEPPER']
+ 
+  config.secret_key = ENV['MCONF_DEVISE_SECRET_KEY']
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -180,7 +180,7 @@ Devise.setup do |config|
   # :authlogic_sha512 (then you should set stretches above to 20 for default behavior)
   # and :restful_authentication_sha1 (then you should set stretches to 10, and copy
   # REST_AUTH_SITE_KEY to pepper)
-  config.encryptor = :station_encryptor
+  # config.encryptor = :station_encryptor
 
   # ==> Configuration for :token_authenticatable
   # Defines name of the authentication token params key

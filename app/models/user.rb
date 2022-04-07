@@ -19,9 +19,9 @@ class User < ActiveRecord::Base
   ## Devise setup
   # Other available devise modules are:
   # :token_authenticatable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :async, :registerable,
+  devise :database_authenticatable, :registerable,
          :confirmable, :recoverable, :rememberable, :trackable,
-         :validatable, :encryptable
+         :validatable
   # Virtual attribute for authenticating by either username or email
   attr_accessor :login
   # To login with username or email, see: http://goo.gl/zdIZ5
@@ -167,6 +167,40 @@ class User < ActiveRecord::Base
   # set to true when the user signs in via an external authentication method (e.g. LDAP)
   attr_accessor :signed_in_via_external
 
+  # Overrides Devise's password validation
+  # When users log in, validates and, if valid, migrates passwords previously encrypted with
+  # StationEncryptor (custom encryptor) to use Bcrypt (Devise's default encryptor)
+  # If it was already migrated (doesn't have legacy password), calls the original method
+  def valid_password?(password)
+    # User still has a password encrypted with StationEncryptor
+    if self.legacy_encrypted_password.present?
+      # Validates it using the legacy encryptor
+      if Devise::Encryptable::Encryptors::StationEncryptor.compare(legacy_encrypted_password, 
+                                                                   password, 
+                                                                   self.class.stretches, 
+                                                                   password_salt, 
+                                                                   self.class.pepper)
+        self.password = password
+        self.legacy_encrypted_password = nil
+        self.save!
+        true
+      else
+        false
+      end
+    # User's password was already migrated to use Devise's default encryptor (Bcrypt)
+    else
+      super
+    end
+  end
+
+  # Overrides Devise's method to delete the legacy password before creating a new password
+  # with Devise's default encryptor (Bcrypt)
+  def reset_password(*args)
+    self.legacy_encrypted_password = nil
+    super
+  end
+
+
   # In case the profile is accessed before it is created, we build one on the fly.
   # Important specially because we have method delegated to the profile.
   def profile_with_initialize
@@ -298,6 +332,12 @@ class User < ActiveRecord::Base
     else
       super # Use whatever other message
     end
+  end
+
+  # Overrides a method from devise to send emails using a queue system, see:
+  # https://github.com/heartcombo/devise#activejob-integration
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver
   end
 
   # Return the list of spaces in which the user has a pending join request or invitation.

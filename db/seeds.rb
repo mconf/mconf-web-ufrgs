@@ -26,7 +26,7 @@ params = { # smtp configs for gmail
   "domain" => 'mconf-example.com'
 }
 params.merge!(config["site"])
-params[:smtp_sender] ||= params[:smtp_login]
+params['smtp_sender'] ||= params['smtp_login']
 
 if Site.count > 0
   Site.current.update_attributes params
@@ -64,7 +64,7 @@ params["_full_name"] ||= params["username"]
 profile = params.delete("profile_attributes")
 
 u = User.where(username: params["username"]).first_or_initialize
-u.assign_attributes(params)
+u.update_attributes(params)
 u.skip_confirmation!
 u.approved = true
 if u.save(validate: false)
