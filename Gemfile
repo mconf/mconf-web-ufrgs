@@ -60,7 +60,7 @@ gem 'bigbluebutton_rails', :git => 'https://github.com/mconf/bigbluebutton_rails
 gem 'vpim', '~> 13.11.11'
 
 # for logos + attachments
-gem 'carrierwave', '~> 0.10.0'
+gem 'carrierwave', '~> 1.3.2'
 gem 'rmagick', '~> 2.16.0'
 gem 'mini_magick', '~> 3.8.1'
 
