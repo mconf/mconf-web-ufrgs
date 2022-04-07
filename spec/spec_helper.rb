@@ -83,8 +83,9 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
 
-  # TODO: set to false only to send emails with devise-async and capybara, see http://stackoverflow.com/questions/16732060/devise-async-sidekiq-rspec-integration-spec-fails
-  #   use databasecleaner or disable this only in the specific features that need it
+  # TODO: set to false only to send emails with devise-async and capybara
+  # see http://stackoverflow.com/questions/16732060/devise-async-sidekiq-rspec-integration-spec-fails
+  # use databasecleaner or disable this only in the specific features that need it
   config.use_transactional_fixtures = false
 
   # Make the rails routes avaiable in all specs

@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   ## Devise setup
   # Other available devise modules are:
   # :token_authenticatable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :async, :registerable,
+  devise :database_authenticatable, :registerable,
          :confirmable, :recoverable, :rememberable, :trackable,
          :validatable, :encryptable
   # Virtual attribute for authenticating by either username or email
@@ -298,6 +298,12 @@ class User < ActiveRecord::Base
     else
       super # Use whatever other message
     end
+  end
+
+  # Overrides a method from devise to send emails using a queue system, see:
+  # https://github.com/heartcombo/devise#activejob-integration
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver
   end
 
   # Return the list of spaces in which the user has a pending join request or invitation.
