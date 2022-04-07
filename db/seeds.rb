@@ -26,7 +26,7 @@ params = { # smtp configs for gmail
   "domain" => 'mconf-example.com'
 }
 params.merge!(config["site"])
-params[:smtp_sender] ||= params[:smtp_login]
+params['smtp_sender'] ||= params['smtp_login']
 
 if Site.count > 0
   Site.current.update_attributes params
