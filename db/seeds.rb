@@ -64,7 +64,7 @@ params["_full_name"] ||= params["username"]
 profile = params.delete("profile_attributes")
 
 u = User.where(username: params["username"]).first_or_initialize
-u.assign_attributes(params)
+u.update_attributes(params)
 u.skip_confirmation!
 u.approved = true
 if u.save(validate: false)

@@ -86,6 +86,7 @@ class UsersController < InheritedResources::Base
     if password_changed
       if current_user.superuser?
         params[:user].delete(:current_password) unless params[:user].nil?
+        @user.update(legacy_encrypted_password: nil)
         updated = @user.update_attributes(user_params)
       else
         updated = @user.update_with_password(user_params)

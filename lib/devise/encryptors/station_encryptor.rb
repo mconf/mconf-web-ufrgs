@@ -5,9 +5,16 @@
 # 3 or later. See the LICENSE file.
 
 # TODO: #1271 This class is only needed to support users that were generated
-#       with station and therefore have a salt. This should be replaced
-#       in the future by devise's standard encryption methods.'
-#       We could use https://github.com/plataformatec/devise/wiki/How-To:-Migration-legacy-database
+#       with station and therefore have a salt. Devise's methods were overriden 
+#       (*) in User model to validate passwords first with this, and then migrate
+#       the password to Devise's standard encryption.
+# (*) Source:
+# https://github.com/plataformatec/devise/wiki/How-To:-Migration-legacy-database
+#
+# TODO: This encryptor should be removed in the future, when all (or the majority of) users
+#       have passwords migrated to use Bcrypt (Devise's standard encryptor).
+#       Also remove legacy_encrypted_password and password_salt (isn't used by Bcrypt)
+#       columns from User table.
 
 require 'digest/sha1'
 
