@@ -539,7 +539,7 @@ GEM
       coffee-rails
       rails (>= 3.1.0)
     ya2yaml (0.31)
-    yajl-ruby (1.2.1)
+    yajl-ruby (1.4.3)
     yui-compressor (0.12.0)
     zip-zip (0.3)
       rubyzip (>= 1.0.0)
