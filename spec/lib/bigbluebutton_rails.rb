@@ -95,8 +95,6 @@ describe BigbluebuttonRails do
             let(:user) { FactoryGirl.create(:user, locale: user_locale) }
             let(:join_options) { target.get_join_options.call(room, user, {}) }
             let(:locale) { Mconf::LocaleControllerModule.get_user_locale(user) }
-            # FIXME: remove after team Live update bbb to version 2.4
-            it { expect(join_options[:"userdata-mconf_custom_language"]).to eql(locale) }
             it { expect(join_options[:"userdata-bbb_override_default_locale"]).to eql(locale) }
           end
         end

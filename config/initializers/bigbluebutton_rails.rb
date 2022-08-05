@@ -43,8 +43,6 @@ BigbluebuttonRails.configure do |config|
       # Add custom metadata join calls
       include Mconf::LocaleControllerModule
       opts = {
-        # FIXME: remove after team Live update bbb to version 2.4
-        "userdata-mconf_custom_language": Mconf::LocaleControllerModule.get_user_locale(user),
         "userdata-bbb_override_default_locale": Mconf::LocaleControllerModule.get_user_locale(user),
       }
       opts
