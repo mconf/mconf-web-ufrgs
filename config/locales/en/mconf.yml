@@ -884,7 +884,7 @@ en:
       manage: "Manage"
       register: "Register"
     banners:
-      banner_expiring: 
+      banner_expiring:
         banner_expiring_text: "Attention! Recordings will be stored for 6 months, after which they will be automatically removed from the system. (The same is not true for recordings made in Moodle.)"
     footer:
       copyright: "© 2010-%{year} %{site}."
@@ -1315,7 +1315,7 @@ en:
       title: Press Ctrl+C to copy the text
       success: Text copied to clipboard
     recording_list:
-      banner_expiring: "Be aware that recordings can take up to 24 hours to become available and are deleted after 6 months."
+      banner_expiring: "Be aware that recordings can take up to 2 hours to become available and are deleted after 6 months."
       created: "Created"
       created_by: "Created by"
       destroy_confirm: "Are you sure you want to permanently remove this recording?"
