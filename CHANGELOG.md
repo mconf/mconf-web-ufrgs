@@ -1,6 +1,20 @@
 # Change Log
-
 ## [Unreleased]
+[Unreleased]: https://github.com/mconf/mconf-web-ufrgs/compare/v3.2.6...HEAD
+
+## [3.2.6] - 2022-07-10
+### Changed
+* [UFRGSP-27] | Changes the availability text banner_expiring time from 24 hours to 2 hours.
+  - PRs: [#52]
+
+<!-- Cards -->
+[UFRGSP-27]: https://www.notion.so/mconf/Modificar-o-texto-de-disponibiliza-o-de-grava-es-e-gerar-vers-o-eca7833da7cb416994cc9aa071e5bf56
+
+<!-- PRs -->
+[#52]: https://github.com/mconf/mconf-web-ufrgs/pull/52
+
+<!-- Compare -->
+[3.2.5]: https://github.com/mconf/mconf-web-ufrgs/compare/v3.2.5..v3.2.6
 
 ## [3.2.5] - 2022-02-25
 ### Changed
@@ -483,5 +497,4 @@ This is a minor update over 0.8 that was developed in parallel with 2.0.
 [#29]: https://github.com/mconf/mconf-web-ufrgs/pull/29
 
 <!-- Compares -->
-[Unreleased]: https://github.com/mconf/mconf-web-ufrgs/compare/v3.2.3..HEAD
 [3.2.3]: https://github.com/mconf/mconf-web-ufrgs/compare/v3.2.2..v3.2.3
