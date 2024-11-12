@@ -15,6 +15,7 @@ describe CustomBigbluebuttonPlaybackTypesHelper do
     let(:presentation) { FactoryGirl.create(:bigbluebutton_playback_type, identifier: "presentation") }
     let(:presentation_export) { FactoryGirl.create(:bigbluebutton_playback_type, identifier: "presentation_export") }
     let(:presentation_video) { FactoryGirl.create(:bigbluebutton_playback_type, identifier: "presentation_video") }
+    let(:video) { FactoryGirl.create(:bigbluebutton_playback_type, identifier: "video") }
 
     context "when the identifier was presentation" do
       let(:playback) { FactoryGirl.create(:bigbluebutton_playback_format, playback_type: presentation) }
@@ -65,6 +66,58 @@ describe CustomBigbluebuttonPlaybackTypesHelper do
         before { recording.update_attributes(description: '') }
 
         it("returns the correctly link") { should eq(link) }
+      end
+    end
+
+    context "when the identifier is video" do
+      let(:playback) { FactoryGirl.create(:bigbluebutton_playback_format, playback_type: video) }
+      subject { link_to_playback(recording, playback) }
+
+      before {
+        recording.update_attributes(name: 'My recording name: 2', description: 'My recording description #2')
+      }
+
+      context 'and the description is set' do
+        let(:name) { 'my_recording_description_2' }
+        let(:link) do
+          link_to(
+            playback.name,
+            play_bigbluebutton_recording_path(recording, { type: video.identifier, name: name }),
+            options_for_tooltip(t("bigbluebutton_rails.playback_types.video.tip"), { download: name })
+          )
+        end
+
+        it("returns the correct link") { should eq(link) }
+      end
+
+      context 'and the description is not set' do
+        let(:name) { 'my_recording_name_2' }
+        let(:link) do
+          link_to(
+            playback.name,
+            play_bigbluebutton_recording_path(recording, { type: video.identifier, name: name }),
+            options_for_tooltip(t("bigbluebutton_rails.playback_types.video.tip"), { download: name })
+          )
+        end
+
+        before { recording.update_attributes(description: nil) }
+
+        it("returns the correct link") { should eq(link) }
+      end
+
+      context 'and the description is empty' do
+        let(:name) { 'my_recording_name_2' }
+        let(:link) do
+          link_to(
+            playback.name,
+            play_bigbluebutton_recording_path(recording, { type: video.identifier, name: name }),
+            options_for_tooltip(t("bigbluebutton_rails.playback_types.video.tip"), { download: name })
+          )
+        end
+
+        before { recording.update_attributes(description: '') }
+
+        it("returns the correct link") { should eq(link) }
       end
     end
   end
