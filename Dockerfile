@@ -1,15 +1,23 @@
 FROM ruby:2.2.5
 
-RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://archive.debian.org/debian-security jessie/updates main\ndeb-src http://archive.debian.org/debian-security jessie/updates main" > /etc/apt/sources.list
 
 RUN apt-get update && \
     apt-get install -y --force-yes libruby aspell-es aspell-en libxml2-dev \
                        libxslt1-dev libmagickcore-dev libmagickwand-dev imagemagick \
                        zlib1g-dev build-essential \
                        libqtwebkit-dev libreadline-dev libsqlite3-dev libssl-dev \
-                       libffi-dev
+                       libffi-dev ca-certificates
 
 ENV app /usr/src/app
+
+ARG RAILS_ENV
+ENV RAILS_ENV=${RAILS_ENV:-production}
+
+RUN if [ "$RAILS_ENV" = "development" ]; \
+    then sed -i -e 's=^mozilla/DST_Root_CA_X3.crt=!mozilla/DST_Root_CA_X3.crt=' '/etc/ca-certificates.conf'; \
+         update-ca-certificates; \
+    fi
 
 # Create app directory
 WORKDIR $app

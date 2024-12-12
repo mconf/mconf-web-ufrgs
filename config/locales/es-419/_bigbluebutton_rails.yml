@@ -85,6 +85,9 @@ es-419:
       presentation_video:
         name: "Descargar"
         tip: "Descarga un archivo de video (utiliza el formato WebM) con la grabación. Puede utilizar este archivo de video para mirar la grabación fuera de línea, y para compartir esta grabación en otras páginas web."
+      video:
+        name: "Descargar"
+        tip: "Descarga un archivo de video (utiliza el formato MP4) con la grabación. Puede utilizar este archivo de video para mirar la grabación fuera de línea, y para compartir esta grabación en otras páginas web."
     recordings:
       default:
         description: "Reunión realizada el %{time} (UTC)"

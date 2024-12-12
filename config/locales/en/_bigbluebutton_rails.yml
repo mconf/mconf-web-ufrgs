@@ -86,6 +86,9 @@ en:
       presentation_video:
         name: "Download"
         tip: "Downloads a vídeo file (uses the WebM format) with the recording. You can use this video file to watch the recording offline and to share this recording in other websites."
+      video:
+        name: "Download"
+        tip: "Downloads a vídeo file (uses the MP4 format) with the recording. You can use this video file to watch the recording offline and to share this recording in other websites."
     recordings:
       default:
         description: "Meeting held on %{time} (UTC)"

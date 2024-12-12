@@ -1,6 +1,20 @@
 # Change Log
 ## [Unreleased]
-[Unreleased]: https://github.com/mconf/mconf-web-ufrgs/compare/v3.2.6...HEAD
+[Unreleased]: https://github.com/mconf/mconf-web-ufrgs/compare/v3.2.7...HEAD
+
+## [3.2.7] - 2024-12-12
+### Changed
+* [PRT-2287] | Fixed the text and tooltip for the video recording format, which replaced the `presentation_video` format.
+  - PRs: [#53]
+
+<!-- Cards -->
+[PRT-2287]: https://www.notion.so/mconf/Fix-de-texto-para-o-playback_type-video-12033ac02c6a807a9372c18566b44d6b?pvs=4
+
+<!-- PRs -->
+[#53]: https://github.com/mconf/mconf-web-ufrgs/pull/53
+
+<!-- Compare -->
+[3.2.7]: https://github.com/mconf/mconf-web-ufrgs/compare/v3.2.6..v3.2.7
 
 ## [3.2.6] - 2022-07-10
 ### Changed

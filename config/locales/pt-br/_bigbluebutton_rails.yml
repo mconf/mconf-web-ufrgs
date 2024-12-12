@@ -86,6 +86,9 @@ pt-br:
       presentation_video:
         name: "Download"
         tip: "Realiza o download da gravação em um arquivo de vídeo (no formato WebM). Você pode usar esse arquivo de vídeo para assistir a gravação offline e/ou compartilhar esta gravação em outros sites."
+      video:
+        name: "Download"
+        tip: "Realiza o download da gravação em um arquivo de vídeo (no formato MP4). Você pode usar esse arquivo de vídeo para assistir a gravação offline e/ou compartilhar esta gravação em outros sites."
     recordings:
       default:
         description: "Reunião realizada em %{time} (UTC)"

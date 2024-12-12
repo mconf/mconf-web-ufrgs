@@ -239,7 +239,7 @@ namespace :db do
     puts "* Create recordings and metadata for all webconference rooms (#{BigbluebuttonRoom.count} rooms)"
 
     # Playback types
-    ids = ["presentation", "presentation_video", "presentation_export"]
+    ids = ["presentation", "video", "presentation_video", "presentation_export"]
     ids.each_with_index do |id, i|
       params = {
         identifier: id,

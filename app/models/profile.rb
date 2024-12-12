@@ -6,7 +6,6 @@
 # 3 or later. See the LICENSE file.
 
 require 'vpim/vcard'
-require 'prism'
 
 class Profile < ActiveRecord::Base
   attr_accessor :vcard
@@ -169,67 +168,6 @@ class Profile < ActiveRecord::Base
   rescue Vpim::InvalidEncodingError, Vpim::UnsupportedError, RuntimeError => e
     raise e if e.class == RuntimeError && e.message != 'Not a valid vCard'
     self.errors.add(:vcard, I18n.t("vCard.corrupt"))
-  end
-
-  def from_hcard(uri)
-    hcard = Prism.find(uri, :hcard)
-
-    if hcard.blank?
-      errors.add(:base, I18n.t("hcard.not_found"))
-      return
-    end
-
-    # FIXME: this should be DRYed with from_vcard
-
-    if hcard.tel
-      self.phone = hcard.tel
-    end
-
-    if hcard.n
-      if hcard.n.honorific_prefix
-        self.prefix_key = hcard.n.honorific_prefix
-      end
-
-      full_name = hcard.fn ||
-                  "#{ hcard.n.try(:given_name) } #{ hcard.n.try(:additional_name) } #{ hcard.n.try(:family_name) }".strip
-
-      if full_name.present?
-        self.full_name = full_name
-      end
-    end
-
-    if hcard.email
-      user.email = hcard.email
-    end
-
-    if hcard.url
-        self.url = Array(hcard.url).first
-    end
-
-    if hcard.org
-      self.organization = hcard.org
-    end
-
-    if hcard.adr
-      if hcard.adr.street_address || hcard.adr.extended_address
-        self.address = "#{ hcard.adr.street_address } #{ hcard.adr.extended_address }".strip
-      end
-
-      if hcard.adr.locality
-        self.city = hcard.adr.locality
-      end
-
-      if hcard.adr.postal_code
-        self.zipcode = hcard.adr.postal_code
-      end
-
-      if hcard.adr.region
-        self.province = hcard.adr.region
-      end
-      if hcard.adr.country_name
-        self.country = hcard.adr.country_name
-      end
-    end
   end
 
   #this method is used to compose the vcard file (.vcf) with the profile of an user
