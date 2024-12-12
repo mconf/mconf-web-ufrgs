@@ -84,6 +84,9 @@ de:
       presentation_video:
         name: "Herunterladen"
         tip: "Lädt eine Videodatei der Aufzeichnung (im WebM Format) herunter. Sie können diese Videodatei offline anzeigen oder auf anderen Websites zeigen."
+      video:
+        name: "Herunterladen"
+        tip: "Lädt eine Videodatei der Aufzeichnung (im MP4 Format) herunter. Sie können diese Videodatei offline anzeigen oder auf anderen Websites zeigen."
     recordings:
       default:
         description: "Das Meeting findet um %{time} Uhr (UTC) statt"
