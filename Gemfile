@@ -69,7 +69,7 @@ gem 'dotenv-rails'
 
 # for bootstrap
 gem 'less-rails'
-gem 'twitter-bootstrap-rails', '~> 2.2.8'
+gem 'twitter-bootstrap-rails', '~> 3.2.0'
 # datetime picker for bootstrap
 gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 
